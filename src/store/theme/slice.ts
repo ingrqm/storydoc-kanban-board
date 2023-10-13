@@ -1,7 +1,8 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'store';
-import { Theme, themes } from 'styles/theme';
+import type { Theme } from 'styles/theme';
+import { themes } from 'styles/theme';
 
 type ThemeState = {
   value: Theme;
