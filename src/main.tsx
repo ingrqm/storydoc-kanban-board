@@ -1,19 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router-dom';
 
 import { ThemeProvider } from 'providers';
 import { store } from 'store';
 import { GlobalStyles } from 'styles';
-import App from 'App.tsx';
+import { router } from 'routes';
+import { HelmetProvider } from 'react-helmet-async';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <ThemeProvider>
-        <GlobalStyles />
-        <App />
-      </ThemeProvider>
+      <HelmetProvider>
+        <ThemeProvider>
+          <GlobalStyles />
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </HelmetProvider>
     </Provider>
   </React.StrictMode>,
 );
