@@ -1,0 +1,43 @@
+{
+  "page": {
+    "app": {
+      "boards": {
+        "meta": {
+          "title": "Boards"
+        }
+      },
+      "dashboard": {
+        "meta": {
+          "title": "Dashboard"
+        }
+      },
+      "profile": {
+        "meta": {
+          "title": "Profile"
+        }
+      },
+      "search": {
+        "meta": {
+          "title": "Search"
+        }
+      },
+      "settings": {
+        "meta": {
+          "title": "Settings"
+        }
+      }
+    },
+    "error": {
+      "not-found": {
+        "meta": {
+          "title": "Error 404 - not found"
+        }
+      },
+      "not-authorized": {
+        "meta": {
+          "title": "Error 401 - not authorized"
+        }
+      }
+    }
+  }
+}

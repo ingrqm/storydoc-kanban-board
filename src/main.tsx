@@ -9,6 +9,8 @@ import { store } from 'store';
 import { GlobalStyles } from 'styles';
 import { router } from 'routes';
 
+import 'i18n';
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>

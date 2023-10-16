@@ -1,0 +1,21 @@
+import { use } from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import * as locales from './locales';
+
+export const defaultLanguage = 'en';
+
+export type Language = keyof typeof locales;
+
+export const languages = Object.keys(locales) as Language[];
+
+const resources = Object.entries(locales).reduce((acc, [key, value]) => {
+  return {
+    ...acc,
+    [key]: { translation: value },
+  };
+}, {});
+
+use(initReactI18next).init({
+  resources,
+  lng: defaultLanguage,
+});

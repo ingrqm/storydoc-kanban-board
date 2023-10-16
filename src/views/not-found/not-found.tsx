@@ -1,10 +1,13 @@
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'hooks';
 
 export const NotFound = () => {
+  const { t } = useTranslation('page.error.not-found');
+
   return (
     <>
       <Helmet>
-        <title>Not Found</title>
+        <title>{t('meta.title')}</title>
       </Helmet>
 
       <div>

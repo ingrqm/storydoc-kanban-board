@@ -1,10 +1,13 @@
+import { useTranslation } from 'hooks';
 import { Helmet } from 'react-helmet-async';
 
 export const NotAuthorized = () => {
+  const { t } = useTranslation('page.error.not-authorized');
+
   return (
     <>
       <Helmet>
-        <title>Not Authorized</title>
+        <title>{t('meta.title')}</title>
       </Helmet>
 
       <div>
