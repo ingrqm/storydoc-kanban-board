@@ -21,6 +21,6 @@ i18n.use(initReactI18next).init({
   lng: defaultLanguage,
 });
 
-i18n.on('languageChanged', (lng) => (document.documentElement.lang = lng));
+i18n.on('languageChanged', (language) => (document.documentElement.lang = language));
 
 document.documentElement.lang = i18n.language;
