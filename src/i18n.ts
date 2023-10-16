@@ -1,4 +1,4 @@
-import { use } from 'i18next';
+import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import * as locales from './locales';
 
@@ -15,7 +15,10 @@ const resources = Object.entries(locales).reduce((acc, [key, value]) => {
   };
 }, {});
 
-use(initReactI18next).init({
+// eslint-disable-next-line import/no-named-as-default-member
+i18n.use(initReactI18next).init({
   resources,
   lng: defaultLanguage,
 });
+
+document.documentElement.lang = i18n.language;
