@@ -1,10 +1,13 @@
+import { useTranslation } from 'hooks';
 import { Helmet } from 'react-helmet-async';
 
 export const Dashboard = () => {
+  const { t } = useTranslation('page.app.dashboard');
+
   return (
     <>
       <Helmet>
-        <title>Dashboard</title>
+        <title>{t('meta.title')}</title>
       </Helmet>
 
       <div>

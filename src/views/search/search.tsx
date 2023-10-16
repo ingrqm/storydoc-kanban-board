@@ -1,10 +1,13 @@
+import { useTranslation } from 'hooks';
 import { Helmet } from 'react-helmet-async';
 
 export const Search = () => {
+  const { t } = useTranslation('page.app.search');
+
   return (
     <>
       <Helmet>
-        <title>Search</title>
+        <title>{t('meta.title')}</title>
       </Helmet>
 
       <div>
