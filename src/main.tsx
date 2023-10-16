@@ -10,6 +10,7 @@ import { GlobalStyles } from 'styles';
 import { router } from 'routes';
 
 import 'i18n';
+import '@fontsource-variable/inter/slnt.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
