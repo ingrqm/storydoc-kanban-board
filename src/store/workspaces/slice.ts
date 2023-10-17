@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { v4 as uuidv4 } from 'uuid';
 
 import type { Workspace, WorkspacesState } from './types';
 import { readSavedState, saveState } from './utils';
@@ -13,11 +12,8 @@ export const slice = createSlice({
   name: 'workspaces',
   initialState,
   reducers: {
-    add: (state, action: PayloadAction<Workspace['title']>) => {
-      state.value.push({
-        id: uuidv4(),
-        title: action.payload,
-      });
+    add: (state, action: PayloadAction<Workspace>) => {
+      state.value.push(action.payload);
 
       saveState(state);
     },
