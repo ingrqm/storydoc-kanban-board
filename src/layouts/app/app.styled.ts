@@ -9,6 +9,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Main = styled.div`
+  display: flex;
   padding-left: calc(294px + 16px);
   min-height: calc(100vh - 32px);
 `;
