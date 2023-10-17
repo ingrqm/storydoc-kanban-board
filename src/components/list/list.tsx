@@ -12,6 +12,7 @@ import { Items } from './components';
 import * as Styled from './list.styled';
 import type { ListProps } from './list.type';
 import { getDepth } from './list.utils';
+import { useSortable } from '@dnd-kit/sortable';
 
 export const List = ({
   title,
@@ -42,6 +43,11 @@ export const List = ({
   const nestedLevels = useMemo(() => getDepth(items), [items]);
   const isItemsNotEmpty = items.length > 0;
   const isListAdd = !id && !title;
+
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({
+    id: id as string,
+    disabled: !id,
+  });
 
   const handleListAdd = (title: string) => {
     if (!workspace) return;
@@ -116,7 +122,15 @@ export const List = ({
   useClickOutside([textareaItemAddRef], handleItemCancelAdd);
 
   return (
-    <Styled.List $nestedLevels={nestedLevels} $isListAdd={isListAdd}>
+    <Styled.List
+      ref={setNodeRef}
+      $nestedLevels={nestedLevels}
+      $isListAdd={isListAdd}
+      $transform={transform}
+      $isDragging={isDragging}
+      {...listeners}
+      {...attributes}
+    >
       <Styled.Header>
         {isListAdd && (
           <Textarea

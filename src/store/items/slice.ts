@@ -43,6 +43,16 @@ export const slice = createSlice({
 
       saveState(state);
     },
+    move: (state, action: PayloadAction<{ target: number; source: number }>) => {
+      const { target, source } = action.payload;
+
+      const item = state.value[source];
+
+      state.value.splice(source, 1);
+      state.value.splice(target, 0, item);
+
+      saveState(state);
+    },
   },
 });
 

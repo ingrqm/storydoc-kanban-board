@@ -4,11 +4,6 @@ import { Textarea } from 'components/textarea/textarea.styled';
 import { colors } from 'styles';
 import { transparency } from 'utils';
 
-type ListProps = {
-  $nestedLevels?: number;
-  $isListAdd?: boolean;
-};
-
 export const Actions = styled.div`
   display: none;
   gap: 12px;
@@ -112,6 +107,16 @@ export const Nested = styled.div`
   width: 100%;
 `;
 
+type ListProps = {
+  $nestedLevels?: number;
+  $isListAdd?: boolean;
+  $transform: {
+    x: number;
+    y: number;
+  } | null;
+  $isDragging: boolean;
+};
+
 export const List = styled.div<ListProps>`
   min-width: ${({ $nestedLevels }) => 294 + ($nestedLevels || 0) * 16}px;
   width: ${({ $nestedLevels }) => 294 + ($nestedLevels || 0) * 16}px;
@@ -119,6 +124,11 @@ export const List = styled.div<ListProps>`
   display: flex;
   padding: 16px 8px 8px 8px;
   padding: ${({ $isListAdd }) => ($isListAdd ? '16px 8px' : '16px 8px 8px 8px')};
+  transform: ${({ $transform }) =>
+    $transform ? `translate3d(${$transform.x}px, ${$transform.y}px, 0)` : 'translate3d(0, 0, 0)'};
+  z-index: ${({ $isDragging }) => ($isDragging ? 1 : 0)};
+  cursor: ${({ $isDragging }) => ($isDragging ? 'grabbing' : 'default')};
+  box-shadow: ${({ $isDragging }) => ($isDragging ? '0px 0px 8px 0px rgba(0, 0, 0, 0.2)' : 'none')};
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;

@@ -7,7 +7,7 @@ import type { Workspace } from 'store/workspaces/types';
 import { slice } from './slice';
 import type { List } from './types';
 
-export const { add: addList, edit: editList } = slice.actions;
+export const { add: addList, edit: editList, move: moveList } = slice.actions;
 
 const { delete: deleteListRaw } = slice.actions;
 
