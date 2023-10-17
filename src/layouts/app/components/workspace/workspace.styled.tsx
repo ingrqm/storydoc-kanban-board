@@ -36,6 +36,7 @@ export const Workspace = styled.div<WorkspaceProps>`
   border-radius: 8px;
   opacity: ${({ $isActive }) => ($isActive ? 1 : 0.5)};
   cursor: ${({ $isActive }) => ($isActive ? 'default' : 'pointer')};
+  transition: all 0.3s;
   background: ${({ $isActive, theme }) =>
     $isActive
       ? theme.layout.app.sidebar.header.workspace.active.default.background
@@ -46,6 +47,7 @@ export const Workspace = styled.div<WorkspaceProps>`
       : theme.layout.app.sidebar.header.workspace.default.default.color};
 
   &:hover {
+    opacity: 1;
     background: ${({ $isActive, theme }) =>
       $isActive
         ? theme.layout.app.sidebar.header.workspace.active.hover.background

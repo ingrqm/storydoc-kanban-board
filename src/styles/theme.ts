@@ -20,7 +20,7 @@ export const defaultTheme = {
                 color: colors.navalNight,
               },
               hover: {
-                background: colors.transparent,
+                background: colors.ghostWhite,
                 color: colors.navalNight,
               },
             },
@@ -30,7 +30,7 @@ export const defaultTheme = {
                 color: colors.navalNight,
               },
               hover: {
-                background: colors.maWhite,
+                background: colors.placeboBlue,
                 color: colors.navalNight,
               },
             },
