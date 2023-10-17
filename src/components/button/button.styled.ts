@@ -3,10 +3,10 @@ import { colors } from 'styles';
 import { HexColor, transparency } from 'utils';
 
 type ButtonProps = {
-  variant: 'default' | 'primary' | 'ghost' | 'disabled';
-  size: 'xs' | 'sm' | 'md' | 'lg';
-  isBlock: boolean;
-  isIcon: boolean;
+  $variant: 'default' | 'primary' | 'ghost' | 'disabled';
+  $size: 'xs' | 'sm' | 'md' | 'lg';
+  $isBlock: boolean;
+  $isIcon: boolean;
 };
 
 const getBoxShadow = <T extends string>(color: HexColor<T>) => `
@@ -19,7 +19,7 @@ const getBoxShadow = <T extends string>(color: HexColor<T>) => `
     0px 8px 2px 0px ${transparency(color, 0)};
 `;
 
-const getPadding = (size: ButtonProps['size']) => {
+const getPadding = (size: ButtonProps['$size']) => {
   switch (size) {
     case 'xs':
       return '4px 8px';
@@ -32,7 +32,7 @@ const getPadding = (size: ButtonProps['size']) => {
   }
 };
 
-const getFontSize = (size: ButtonProps['size']) => {
+const getFontSize = (size: ButtonProps['$size']) => {
   switch (size) {
     case 'xs':
       return '11px';
@@ -45,7 +45,7 @@ const getFontSize = (size: ButtonProps['size']) => {
   }
 };
 
-const getLineHeight = (size: ButtonProps['size']) => {
+const getLineHeight = (size: ButtonProps['$size']) => {
   switch (size) {
     case 'xs':
       return '14px';
@@ -68,13 +68,13 @@ export const Button = styled.button<ButtonProps>`
   font-weight: 600;
   transition: all 0.3s;
 
-  ${({ theme, size, variant, isBlock, isIcon }) => {
-    const button = theme.button[variant];
+  ${({ theme, $size, $variant, $isBlock, $isIcon }) => {
+    const button = theme.button[$variant];
 
     return `
-      cursor: ${variant === 'disabled' ? 'not-allowed' : 'pointer'};
-      width: ${isBlock ? '100%' : 'auto'};
-      padding: ${isIcon ? '0' : getPadding(size)};
+      cursor: ${$variant === 'disabled' ? 'not-allowed' : 'pointer'};
+      width: ${$isBlock ? '100%' : 'auto'};
+      padding: ${$isIcon ? '0' : getPadding($size)};
       background-color: ${button.default.background};
       border: ${
         button.default.border === colors.transparent
@@ -82,9 +82,9 @@ export const Button = styled.button<ButtonProps>`
           : `1px solid ${transparency(button.default.border, 0.5)}`
       };
       color: ${button.default.color};
-      ${button.default.shadow !== colors.transparent && getBoxShadow(button.default.shadow)}
-      font-size: ${getFontSize(size)};
-      line-height: ${getLineHeight(size)};
+      ${button.default.shadow !== colors.transparent ? getBoxShadow(button.default.shadow) : ''}
+      font-size: ${getFontSize($size)};
+      line-height: ${getLineHeight($size)};
 
       &:hover {
         background-color: ${button.hover.background};
@@ -94,7 +94,7 @@ export const Button = styled.button<ButtonProps>`
             : `1px solid ${transparency(button.hover.border, 0.5)}`
         };
         color: ${button.hover.color};
-        ${button.hover.shadow !== colors.transparent && getBoxShadow(button.hover.shadow)}
+        ${button.hover.shadow !== colors.transparent ? getBoxShadow(button.hover.shadow) : ''}
       }
     `;
   }};
