@@ -1,6 +1,6 @@
-import { Item } from './list.type';
+import { Item } from 'store/items/types';
 
-export const getDepth = (items: Item[], parentId: null | string = null): number => {
+export const getDepth = (items: Item[], parentId?: string): number => {
   const children = items.filter((item) => item.parent === parentId);
 
   if (children.length === 0) return 0;

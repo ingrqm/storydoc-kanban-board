@@ -1,8 +1,4 @@
-export type Item = {
-  id: string;
-  title: string;
-  list: null | string;
-};
+import { Item } from 'store/items/types';
 
 export type ListProps = {
   title?: string;
