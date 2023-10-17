@@ -8,7 +8,7 @@ import { setWorkspace } from 'store/workspace/actions';
 import { slice } from './slice';
 import type { Workspace } from './types';
 
-export const { edit: editWorkspace } = slice.actions;
+export const { edit: editWorkspace, move: moveWorkspace } = slice.actions;
 
 const { add: addWorkspaceRaw, delete: deleteWorkspaceRaw } = slice.actions;
 

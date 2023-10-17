@@ -15,6 +15,7 @@ export const Sidebar = styled.div`
   height: calc(100vh - 16px - 16px);
   width: 294px;
   overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 export const Header = styled.div`
@@ -23,6 +24,12 @@ export const Header = styled.div`
   gap: 8px;
   padding: 8px 8px 16px 8px;
   border-bottom: 1px solid ${({ theme }) => theme.layout.app.sidebar.header.border};
+`;
+
+export const Droppable = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;
 
 export const Message = styled.div`

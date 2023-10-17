@@ -1,6 +1,10 @@
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { DndContext, MouseSensor, TouchSensor, useDroppable, useSensor, useSensors } from '@dnd-kit/core';
+import type { DragEndEvent } from '@dnd-kit/core';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 
 import JohnDoeImg from 'assets/images/john-doe.jpeg';
 import { Button, Icon } from 'components';
@@ -11,7 +15,7 @@ import { selectWorkspaces } from 'store/workspaces/selectors';
 import { items } from './sidebar.data';
 import * as Styled from './sidebar.styled';
 import { Workspace } from '..';
-import { addWorkspace } from 'store/workspaces/actions';
+import { addWorkspace, moveWorkspace } from 'store/workspaces/actions';
 
 export const Sidebar = () => {
   const { t } = useTranslation('layout.app.sidebar');
@@ -24,6 +28,34 @@ export const Sidebar = () => {
   const navigate = useNavigate();
   const letter = title[0];
   const isSaveDisabled = title.length === 0;
+
+  const sensors = useSensors(
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    }),
+    useSensor(TouchSensor),
+  );
+
+  const { setNodeRef } = useDroppable({
+    id: 'workspaces',
+  });
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over) return;
+
+    const items = workspaces;
+
+    const source = items.findIndex((item) => item.id === active.id);
+    const target = items.findIndex((item) => item.id === over.id);
+
+    if (source !== target) {
+      dispatch(moveWorkspace({ target, source }));
+    }
+  };
 
   const handleNavigateSettings = () => {
     navigate('/settings');
@@ -52,9 +84,16 @@ export const Sidebar = () => {
         {workspaces.length === 0 && !isWorkspaceAdd && (
           <Styled.Message>{t('header.message.no-workspaces')}</Styled.Message>
         )}
-        {workspaces.map(({ id, title }) => (
-          <Workspace key={id} id={id} title={title} isActive={isWorkspaceAdd ? false : id === workspace} />
-        ))}
+
+        <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={handleDragEnd} sensors={sensors}>
+          <SortableContext items={workspaces} strategy={verticalListSortingStrategy}>
+            <Styled.Droppable ref={setNodeRef}>
+              {workspaces.map(({ id, title }) => (
+                <Workspace key={id} id={id} title={title} isActive={isWorkspaceAdd ? false : id === workspace} />
+              ))}
+            </Styled.Droppable>
+          </SortableContext>
+        </DndContext>
 
         {isWorkspaceAdd ? (
           <>

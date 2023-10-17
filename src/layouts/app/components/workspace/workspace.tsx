@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 
 import { Button, Icon, Textarea } from 'components';
 import { useClickOutside, useDispatch, useFocus, useTranslation } from 'hooks';
@@ -7,6 +7,7 @@ import { addWorkspace, deleteWorkspace, editWorkspace } from 'store/workspaces/a
 import * as Styled from './workspace.styled';
 import { setWorkspace } from 'store/workspace/actions';
 import type { WorkspaceProps } from './workspace.types';
+import { useSortable } from '@dnd-kit/sortable';
 
 export const Workspace = ({
   id,
@@ -23,12 +24,14 @@ export const Workspace = ({
   onWorkspaceSet,
   isActive = false,
 }: WorkspaceProps) => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const [isWorkspaceEdit, setIsWorkspaceEdit] = useState(false);
   const [textareaWorkspaceAddRef, setTextareaWorkspaceAddFocus] = useFocus();
   const [textareaWorkspaceEditRef, setTextareaWorkspaceEditFocus] = useFocus();
   const isWorkspaceAdd = !id && !title;
+
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({ id: id as string, disabled: !id });
 
   const handleWorkspaceChange = (title: string) => {
     onWorkspaceTitleChange?.(title);
@@ -73,9 +76,13 @@ export const Workspace = ({
     onWorkspaceDelete?.();
   };
 
-  const handleWorkspaceSet = () => {
+  const handleWorkspaceSet = (event: MouseEvent) => {
+    const forbiddenTags = ['button', 'svg', 'g', 'path'];
+
     if (!id) return;
     if (isWorkspaceAdd || isWorkspaceEdit) return;
+    if (!(event.target instanceof HTMLElement)) return;
+    if (forbiddenTags.includes(event.target?.nodeName.toLocaleLowerCase())) return;
 
     dispatch(setWorkspace(id));
     onWorkspaceSet?.();
@@ -94,7 +101,15 @@ export const Workspace = ({
   useClickOutside([textareaWorkspaceEditRef], handleWorkspaceCancelEdit);
 
   return (
-    <Styled.Workspace $isActive={isActive} onClick={handleWorkspaceSet}>
+    <Styled.Workspace
+      ref={setNodeRef}
+      $isActive={isActive}
+      onClick={handleWorkspaceSet}
+      $transform={transform}
+      $isDragging={isDragging}
+      {...listeners}
+      {...attributes}
+    >
       <Styled.Logo>{letter ? letter : title?.[0].toUpperCase()}</Styled.Logo>
       {!isWorkspaceAdd && !isWorkspaceEdit && title && <Styled.Title>{title}</Styled.Title>}
       {isWorkspaceAdd && (
