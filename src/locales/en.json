@@ -4,7 +4,8 @@
       "boards": {
         "meta": {
           "title": "Boards"
-        }
+        },
+        "add-list": "Add another list"
       },
       "dashboard": {
         "meta": {
@@ -36,6 +37,25 @@
       "not-authorized": {
         "meta": {
           "title": "Error 401 - not authorized"
+        }
+      }
+    }
+  },
+  "component": {
+    "list": {
+      "header": {
+        "textarea": {
+          "placeholder": "Title of the new list..."
+        }
+      },
+      "body": {
+        "textarea": {
+          "placeholder": "Title of the new card..."
+        }
+      },
+      "footer": {
+        "button": {
+          "add-card": "Add a card"
         }
       }
     }

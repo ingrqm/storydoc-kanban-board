@@ -61,6 +61,23 @@ export const defaultTheme = {
       },
     },
   },
+  list: {
+    background: colors.placeboBlue,
+    input: {
+      color: colors.navalNight,
+    },
+    card: {
+      default: {
+        background: colors.white,
+        shadow: colors.congressionalNavy,
+      },
+      hover: {
+        background: colors.ghostWhite,
+        shadow: colors.congressionalNavy,
+      },
+    },
+    color: colors.navalNight,
+  },
 } as const;
 
 export type Themes = Record<Theme, typeof defaultTheme>;
