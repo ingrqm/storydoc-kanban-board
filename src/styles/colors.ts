@@ -19,4 +19,6 @@ export const colors = {
   ghostWhite: '#F8FAFF',
   whiteOwl: '#F4F3F6',
   parakeetBlue: '#80BEFD',
+  timeTravel: '#B3C4D6',
+  whisperBlue: '#E4E9F3',
 } as const;

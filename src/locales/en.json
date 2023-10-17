@@ -41,6 +41,33 @@
       }
     }
   },
+  "layout": {
+    "app": {
+      "sidebar": {
+        "header": {
+          "button": {
+            "create": "Create workspace",
+            "save": "Save new workspace"
+          },
+          "textarea": {
+            "placeholder": "Workspace name"
+          },
+          "message": {
+            "no-workspaces": "You don't have any workspaces"
+          }
+        },
+        "nav": {
+          "link": {
+            "boards": "Boards",
+            "dashboard": "Dashboard",
+            "profile": "Profile",
+            "search": "Search",
+            "settings": "Settings"
+          }
+        }
+      }
+    }
+  },
   "component": {
     "list": {
       "header": {
@@ -58,6 +85,11 @@
           "add-card": "Add a card"
         }
       }
+    }
+  },
+  "header": {
+    "textarea": {
+      "placeholder": "Workspace name"
     }
   }
 }

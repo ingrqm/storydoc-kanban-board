@@ -4,6 +4,7 @@ export const GlobalStyles = createGlobalStyle`
   :root {
     font-size: 16px;
     font-family: 'Inter Variable', sans-serif;
+    width: 100%
   }
 
   * {
@@ -12,5 +13,10 @@ export const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0;
     outline: none;
+  }
+
+  html, body, #root {
+    width: 100%;
+    min-height: calc(100vh + 1px);
   }
 `;

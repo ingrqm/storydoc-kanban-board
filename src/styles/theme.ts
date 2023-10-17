@@ -3,6 +3,81 @@ import { colors } from './colors';
 export type Theme = 'light';
 
 export const defaultTheme = {
+  layout: {
+    app: {
+      wrapper: {
+        background: colors.maWhite,
+      },
+      sidebar: {
+        background: colors.white,
+        shadow: colors.congressionalNavy,
+        header: {
+          border: colors.whisperBlue,
+          workspace: {
+            default: {
+              default: {
+                background: colors.transparent,
+                color: colors.navalNight,
+              },
+              hover: {
+                background: colors.transparent,
+                color: colors.navalNight,
+              },
+            },
+            active: {
+              default: {
+                background: colors.maWhite,
+                color: colors.navalNight,
+              },
+              hover: {
+                background: colors.maWhite,
+                color: colors.navalNight,
+              },
+            },
+          },
+          logo: {
+            background: colors.timeTravel,
+          },
+        },
+        nav: {
+          link: {
+            default: {
+              default: {
+                color: colors.blueRinse,
+              },
+              hover: {
+                color: colors.liveJazz,
+              },
+            },
+            active: {
+              default: {
+                color: colors.azure,
+              },
+              hover: {
+                color: colors.parakeetBlue,
+              },
+            },
+          },
+        },
+        footer: {
+          avatar: {
+            color: colors.black,
+          },
+          settings: {
+            default: {
+              color: colors.blueRinse,
+            },
+            hover: {
+              color: colors.liveJazz,
+            },
+          },
+        },
+      },
+    },
+  },
+  separator: {
+    background: colors.whisperBlue,
+  },
   button: {
     default: {
       default: {

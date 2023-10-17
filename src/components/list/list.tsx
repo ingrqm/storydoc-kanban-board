@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Button, Icon } from 'components';
-import { useClickOutside, useFocus, useTranslation } from 'hooks';
-import { useAppDispatch } from 'store';
+import { Button, Icon, Textarea } from 'components';
+import { useClickOutside, useDispatch, useFocus, useTranslation } from 'hooks';
 import { addItem } from 'store/items/actions';
 import { selectItems } from 'store/items/selectors';
 import { addList, deleteList, editList } from 'store/lists/actions';
+import { selectWorkspace } from 'store/workspace/selectors';
 
-import { Textarea, Items } from './components';
+import { Items } from './components';
 import * as Styled from './list.styled';
 import type { ListProps } from './list.type';
 import { getDepth } from './list.utils';
@@ -31,8 +31,9 @@ export const List = ({
   onItemDelete,
 }: ListProps) => {
   const { t } = useTranslation('component.list');
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const items = useSelector(selectItems).filter((item) => item.list === id);
+  const workspace = useSelector(selectWorkspace);
   const [isListEdit, setIsListEdit] = useState(false);
   const [isItemAdd, setIsItemAdd] = useState(false);
   const [textareaListAddRef, setTextareaListAddFocus] = useFocus();
@@ -43,12 +44,15 @@ export const List = ({
   const isListAdd = !id && !title;
 
   const handleListAdd = (title: string) => {
-    // TODO: connect proper workspace
-    dispatch(addList({ title, workspace: 'test' }));
+    if (!workspace) return;
+
+    dispatch(addList({ title, workspace }));
     onListAdd?.(title);
   };
 
-  const handleListCancelAdd = () => onListCancelAdd?.();
+  const handleListCancelAdd = () => {
+    onListCancelAdd?.();
+  };
 
   const handleListStartEdit = () => {
     setIsListEdit(true);
@@ -61,9 +65,9 @@ export const List = ({
   };
 
   const handleListEdit = (title: string) => {
-    if (!id) return;
-    // TODO: connect proper workspace
-    dispatch(editList({ id, title, workspace: 'test' }));
+    if (!id || !workspace) return;
+
+    dispatch(editList({ id, title, workspace }));
     setIsListEdit(false);
     onListEdit?.(title);
   };
@@ -94,25 +98,21 @@ export const List = ({
   };
 
   useEffect(() => {
-    if (isListAdd) {
-      setTextareaListAddFocus();
-    }
+    isListAdd && setTextareaListAddFocus();
   }, [isListAdd, setTextareaListAddFocus]);
 
   useEffect(() => {
-    if (isListEdit) {
-      setTextareaListEditFocus();
-    }
+    isListEdit && setTextareaListEditFocus();
   }, [isListEdit, setTextareaListEditFocus]);
 
   useEffect(() => {
-    if (isItemAdd) {
-      setTextareaItemAddFocus();
-    }
+    isItemAdd && setTextareaItemAddFocus();
   }, [isItemAdd, setTextareaItemAddFocus]);
 
   useClickOutside([textareaListAddRef], handleListCancelAdd);
+
   useClickOutside([textareaListEditRef], handleListCancelEdit);
+
   useClickOutside([textareaItemAddRef], handleItemCancelAdd);
 
   return (

@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import { Button, Icon } from 'components';
-import { useClickOutside, useFocus, useTranslation } from 'hooks';
-import { useAppDispatch } from 'store';
+import { Button, Icon, Textarea } from 'components';
+import { useClickOutside, useDispatch, useFocus, useTranslation } from 'hooks';
 import { deleteItem, editItem } from 'store/items/actions';
 import type { Item as ItemSlice } from 'store/items/types';
 
 import * as Styled from '../list.styled';
-import { Textarea } from '.';
 
 type ItemProps = {
   onItemEdit?: (title: string) => void;
@@ -17,7 +15,7 @@ type ItemProps = {
 } & ItemSlice;
 
 export const Item = ({ id, list, onItemEdit, onItemStartEdit, onItemCancelEdit, onItemDelete, title }: ItemProps) => {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const { t } = useTranslation('component.list');
   const [isItemEdit, setIsItemEdit] = useState(false);
   const [textareaItemEditRef, setTextareaItemEditFocus] = useFocus();
