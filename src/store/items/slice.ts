@@ -1,53 +1,49 @@
-import { createSlice, createSelector } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from 'store';
-import { Item, ItemsState } from './types';
+import { v4 as uuidv4 } from 'uuid';
 
-const storedItems = localStorage.getItem('items');
-const isItemsValid = storedItems && JSON.parse(storedItems).every((item: Item) => item.id && item.title && item.list);
+import type { List } from 'store/lists/types';
 
-if (!isItemsValid) {
-  localStorage.removeItem('items');
-}
+import type { Item, ItemsState } from './types';
+import { readSavedState, saveState } from './utils';
 
 const initialState: ItemsState = {
-  value: isItemsValid ? JSON.parse(storedItems) : [],
+  value: readSavedState(),
 };
 
 export const slice = createSlice({
   name: 'items',
   initialState,
   reducers: {
-    addItem: (state, action: PayloadAction<Item>) => {
-      state.value.push(action.payload);
-      localStorage.setItem('items', JSON.stringify(state.value));
+    add: (state, action: PayloadAction<Omit<Item, 'id'>>) => {
+      state.value.push({
+        id: uuidv4(),
+        ...action.payload,
+      });
+
+      saveState(state);
     },
-    editItem: (state, action: PayloadAction<Item>) => {
+    edit: (state, action: PayloadAction<Item>) => {
       const index = state.value.findIndex((item) => item.id === action.payload.id);
 
       if (index !== -1) {
         state.value[index] = action.payload;
       }
 
-      localStorage.setItem('items', JSON.stringify(state.value));
+      saveState(state);
     },
-    deleteItem: (state, action: PayloadAction<{ id: string }>) => {
-      state.value = state.value.filter((item) => item.id !== action.payload.id);
-      localStorage.setItem('items', JSON.stringify(state.value));
+    delete: (state, action: PayloadAction<Item['id']>) => {
+      state.value = state.value.filter((item) => item.id !== action.payload);
+
+      saveState(state);
     },
-    deleteItemsByListId: (state, action: PayloadAction<string>) => {
+
+    deleteAllByListId: (state, action: PayloadAction<List['id']>) => {
       state.value = state.value.filter((item) => item.list !== action.payload);
-      localStorage.setItem('items', JSON.stringify(state.value));
+
+      saveState(state);
     },
   },
 });
-
-export const { addItem, editItem, deleteItem, deleteItemsByListId } = slice.actions;
-
-const getItems = (state: RootState) => state.items;
-
-export const selectors = {
-  selectItems: createSelector(getItems, (items) => items.value),
-};
 
 export default slice.reducer;

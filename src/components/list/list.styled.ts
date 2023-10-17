@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { transparency } from 'utils';
 
 type ListProps = {

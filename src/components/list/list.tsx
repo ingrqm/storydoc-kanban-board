@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
+import { useSelector } from 'react-redux';
 
 import { Button, Icon } from 'components';
 import { useClickOutside, useFocus, useTranslation } from 'hooks';
-import { addItem, deleteItemsByListId, selectors } from 'store/items/slice';
-import { addList, deleteList, editList } from 'store/lists/slice';
+import { useAppDispatch } from 'store';
+import { addItem } from 'store/items/actions';
+import { selectItems } from 'store/items/selectors';
+import { addList, deleteList, editList } from 'store/lists/actions';
 
 import { Textarea, Items } from './components';
 import * as Styled from './list.styled';
-import { ListProps } from './list.type';
+import type { ListProps } from './list.type';
 import { getDepth } from './list.utils';
 
 export const List = ({
@@ -30,8 +31,8 @@ export const List = ({
   onItemDelete,
 }: ListProps) => {
   const { t } = useTranslation('component.list');
-  const dispatch = useDispatch();
-  const items = useSelector(selectors.selectItems).filter((item) => item.list === id);
+  const dispatch = useAppDispatch();
+  const items = useSelector(selectItems).filter((item) => item.list === id);
   const [isListEdit, setIsListEdit] = useState(false);
   const [isItemAdd, setIsItemAdd] = useState(false);
   const [textareaListAddRef, setTextareaListAddFocus] = useFocus();
@@ -43,7 +44,7 @@ export const List = ({
 
   const handleListAdd = (title: string) => {
     // TODO: connect proper workspace
-    dispatch(addList({ id: uuidv4(), title, workspace: 'test' }));
+    dispatch(addList({ title, workspace: 'test' }));
     onListAdd?.(title);
   };
 
@@ -70,8 +71,7 @@ export const List = ({
   const handleListDelete = () => {
     if (!id) return;
 
-    dispatch(deleteList({ id }));
-    dispatch(deleteItemsByListId(id));
+    dispatch(deleteList(id));
     onListDelete?.();
   };
 
@@ -88,7 +88,7 @@ export const List = ({
   const handleItemAdd = (title: string) => {
     if (!id) return;
 
-    dispatch(addItem({ id: uuidv4(), title, list: id }));
+    dispatch(addItem({ title, list: id }));
     setIsItemAdd(false);
     onItemAdd?.(title);
   };

@@ -1,17 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
+
+import itemsReducer from './items/slice';
+import listsReducer from './lists/slice';
 import themeReducer from './theme/slice';
 import workspacesReducer from './workspaces/slice';
-import listsReducer from './lists/slice';
-import itemsReducer from './items/slice';
 
 export const store = configureStore({
   reducer: {
-    theme: themeReducer,
-    workspaces: workspacesReducer,
     lists: listsReducer,
     items: itemsReducer,
+    theme: themeReducer,
+    workspaces: workspacesReducer,
   },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch: () => AppDispatch = useDispatch;

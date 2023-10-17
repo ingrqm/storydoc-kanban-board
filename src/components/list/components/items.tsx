@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 
 import type { Item as ItemProps } from 'store/items/types';
+
 import * as Styled from '../list.styled';
 import { Item } from '.';
 

@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
+import { useSelector } from 'react-redux';
 
 import { Button, Icon, List } from 'components';
 import { useTranslation } from 'hooks';
-import { selectors } from 'store/lists/slice';
+import { selectLists } from 'store/lists/selectors';
 
 import * as Styled from './boards.styled';
 
 export const Boards = () => {
   const { t } = useTranslation('page.app.boards');
-  const lists = useSelector(selectors.selectLists);
+  const lists = useSelector(selectLists);
   const [isListAdd, setIsListAdd] = useState(false);
 
   const handleListStartAdd = () => {

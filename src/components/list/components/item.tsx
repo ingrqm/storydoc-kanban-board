@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 
 import { Button, Icon } from 'components';
+import { useClickOutside, useFocus, useTranslation } from 'hooks';
+import { useAppDispatch } from 'store';
+import { deleteItem, editItem } from 'store/items/actions';
 import type { Item as ItemSlice } from 'store/items/types';
 
 import * as Styled from '../list.styled';
-
 import { Textarea } from '.';
-import { useDispatch } from 'react-redux';
-import { useClickOutside, useFocus, useTranslation } from 'hooks';
-import { deleteItem, editItem } from 'store/items/slice';
 
 type ItemProps = {
   onItemEdit?: (title: string) => void;
@@ -18,7 +17,7 @@ type ItemProps = {
 } & ItemSlice;
 
 export const Item = ({ id, list, onItemEdit, onItemStartEdit, onItemCancelEdit, onItemDelete, title }: ItemProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { t } = useTranslation('component.list');
   const [isItemEdit, setIsItemEdit] = useState(false);
   const [textareaItemEditRef, setTextareaItemEditFocus] = useFocus();
@@ -44,7 +43,7 @@ export const Item = ({ id, list, onItemEdit, onItemStartEdit, onItemCancelEdit, 
   const handleItemDelete = () => {
     if (!id) return;
 
-    dispatch(deleteItem({ id }));
+    dispatch(deleteItem(id));
     onItemDelete?.();
   };
 
