@@ -1,5 +1,6 @@
-import { useTranslation } from 'hooks';
 import { Helmet } from 'react-helmet-async';
+
+import { useTranslation } from 'hooks';
 
 export const Profile = () => {
   const { t } = useTranslation('page.app.profile');
