@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
+import { useSelector } from 'react-redux';
 
-import { Button, Icon } from 'components';
-import { useClickOutside, useFocus, useTranslation } from 'hooks';
-import { addItem, deleteItemsByListId, selectors } from 'store/items/slice';
-import { addList, deleteList, editList } from 'store/lists/slice';
+import { Button, Icon, Textarea } from 'components';
+import { useClickOutside, useDispatch, useFocus, useTranslation } from 'hooks';
+import { addItem } from 'store/items/actions';
+import { selectItems } from 'store/items/selectors';
+import { addList, deleteList, editList } from 'store/lists/actions';
+import { selectWorkspace } from 'store/workspace/selectors';
 
-import { Textarea, Items } from './components';
+import { Items } from './components';
 import * as Styled from './list.styled';
-import { ListProps } from './list.type';
+import type { ListProps } from './list.type';
 import { getDepth } from './list.utils';
 
 export const List = ({
@@ -31,7 +32,8 @@ export const List = ({
 }: ListProps) => {
   const { t } = useTranslation('component.list');
   const dispatch = useDispatch();
-  const items = useSelector(selectors.selectItems).filter((item) => item.list === id);
+  const items = useSelector(selectItems).filter((item) => item.list === id);
+  const workspace = useSelector(selectWorkspace);
   const [isListEdit, setIsListEdit] = useState(false);
   const [isItemAdd, setIsItemAdd] = useState(false);
   const [textareaListAddRef, setTextareaListAddFocus] = useFocus();
@@ -42,12 +44,15 @@ export const List = ({
   const isListAdd = !id && !title;
 
   const handleListAdd = (title: string) => {
-    // TODO: connect proper workspace
-    dispatch(addList({ id: uuidv4(), title, workspace: 'test' }));
+    if (!workspace) return;
+
+    dispatch(addList({ title, workspace }));
     onListAdd?.(title);
   };
 
-  const handleListCancelAdd = () => onListCancelAdd?.();
+  const handleListCancelAdd = () => {
+    onListCancelAdd?.();
+  };
 
   const handleListStartEdit = () => {
     setIsListEdit(true);
@@ -60,9 +65,9 @@ export const List = ({
   };
 
   const handleListEdit = (title: string) => {
-    if (!id) return;
-    // TODO: connect proper workspace
-    dispatch(editList({ id, title, workspace: 'test' }));
+    if (!id || !workspace) return;
+
+    dispatch(editList({ id, title, workspace }));
     setIsListEdit(false);
     onListEdit?.(title);
   };
@@ -70,8 +75,7 @@ export const List = ({
   const handleListDelete = () => {
     if (!id) return;
 
-    dispatch(deleteList({ id }));
-    dispatch(deleteItemsByListId(id));
+    dispatch(deleteList(id));
     onListDelete?.();
   };
 
@@ -88,31 +92,27 @@ export const List = ({
   const handleItemAdd = (title: string) => {
     if (!id) return;
 
-    dispatch(addItem({ id: uuidv4(), title, list: id }));
+    dispatch(addItem({ title, list: id }));
     setIsItemAdd(false);
     onItemAdd?.(title);
   };
 
   useEffect(() => {
-    if (isListAdd) {
-      setTextareaListAddFocus();
-    }
+    isListAdd && setTextareaListAddFocus();
   }, [isListAdd, setTextareaListAddFocus]);
 
   useEffect(() => {
-    if (isListEdit) {
-      setTextareaListEditFocus();
-    }
+    isListEdit && setTextareaListEditFocus();
   }, [isListEdit, setTextareaListEditFocus]);
 
   useEffect(() => {
-    if (isItemAdd) {
-      setTextareaItemAddFocus();
-    }
+    isItemAdd && setTextareaItemAddFocus();
   }, [isItemAdd, setTextareaItemAddFocus]);
 
   useClickOutside([textareaListAddRef], handleListCancelAdd);
+
   useClickOutside([textareaListEditRef], handleListCancelEdit);
+
   useClickOutside([textareaItemAddRef], handleItemCancelAdd);
 
   return (

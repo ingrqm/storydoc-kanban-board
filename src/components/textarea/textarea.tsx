@@ -1,23 +1,25 @@
 import { forwardRef, useEffect, useState } from 'react';
 import type { ChangeEvent, KeyboardEvent, MutableRefObject } from 'react';
 
-import * as Styled from '../list.styled';
+import * as Styled from './textarea.styled';
 
 type TextareaProps = {
   defaultValue?: string;
   onCancel?: () => void;
+  onChange?: (value: string) => void;
   onSubmit?: (value: string) => void;
   placeholder: string;
 };
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
-  { defaultValue, onCancel, onSubmit, placeholder },
+  { defaultValue, onCancel, onChange, onSubmit, placeholder },
   ref,
 ) {
   const [value, setValue] = useState(defaultValue || '');
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(event.target.value);
+    onChange?.(event.target.value);
     handleResize(event.target);
   };
 

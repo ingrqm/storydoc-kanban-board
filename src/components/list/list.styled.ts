@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+
+import { Textarea } from 'components/textarea/textarea.styled';
+import { colors } from 'styles';
 import { transparency } from 'utils';
 
 type ListProps = {
@@ -10,16 +13,20 @@ export const Actions = styled.div`
   display: none;
   gap: 12px;
   position: absolute;
-`;
 
-export const Textarea = styled.textarea`
-  border: none;
-  background: none;
-  padding: none;
-  width: 100%;
-  font-size: inherit;
-  line-height: inherit;
-  resize: none;
+  button {
+    &:first-child {
+      color: ${colors.navalNight};
+    }
+
+    &:last-child {
+      color: ${colors.tomatoBurst};
+    }
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
 `;
 
 export const Header = styled.div`

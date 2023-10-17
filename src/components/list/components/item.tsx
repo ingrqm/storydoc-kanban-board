@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import { Button, Icon } from 'components';
+import { Button, Icon, Textarea } from 'components';
+import { useClickOutside, useDispatch, useFocus, useTranslation } from 'hooks';
+import { deleteItem, editItem } from 'store/items/actions';
 import type { Item as ItemSlice } from 'store/items/types';
 
 import * as Styled from '../list.styled';
-
-import { Textarea } from '.';
-import { useDispatch } from 'react-redux';
-import { useClickOutside, useFocus, useTranslation } from 'hooks';
-import { deleteItem, editItem } from 'store/items/slice';
 
 type ItemProps = {
   onItemEdit?: (title: string) => void;
@@ -44,7 +41,7 @@ export const Item = ({ id, list, onItemEdit, onItemStartEdit, onItemCancelEdit, 
   const handleItemDelete = () => {
     if (!id) return;
 
-    dispatch(deleteItem({ id }));
+    dispatch(deleteItem(id));
     onItemDelete?.();
   };
 

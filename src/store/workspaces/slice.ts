@@ -1,58 +1,37 @@
-import { createSlice, createSelector } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from 'store';
 
-type Workspace = {
-  id: string;
-  title: string;
-};
-
-type WorkspacesState = {
-  value: Workspace[];
-};
-
-const storedWorkspaces = localStorage.getItem('workspaces');
-const isWorkspacesValid =
-  storedWorkspaces && JSON.parse(storedWorkspaces).every((workspace: Workspace) => workspace.id && workspace.title);
-
-if (!isWorkspacesValid) {
-  localStorage.removeItem('workspaces');
-}
+import type { Workspace, WorkspacesState } from './types';
+import { readSavedState, saveState } from './utils';
 
 const initialState: WorkspacesState = {
-  value: isWorkspacesValid ? JSON.parse(storedWorkspaces) : [],
+  value: readSavedState(),
 };
 
 export const slice = createSlice({
   name: 'workspaces',
   initialState,
   reducers: {
-    addWorkspace: (state, action: PayloadAction<Workspace>) => {
+    add: (state, action: PayloadAction<Workspace>) => {
       state.value.push(action.payload);
-      localStorage.setItem('workspaces', JSON.stringify(state.value));
+
+      saveState(state);
     },
-    editWorkspace: (state, action: PayloadAction<Workspace>) => {
+    edit: (state, action: PayloadAction<Workspace>) => {
       const index = state.value.findIndex((workspace) => workspace.id === action.payload.id);
 
       if (index !== -1) {
         state.value[index] = action.payload;
       }
 
-      localStorage.setItem('workspaces', JSON.stringify(state.value));
+      saveState(state);
     },
-    deleteWorkspace: (state, action: PayloadAction<{ id: string }>) => {
-      state.value = state.value.filter((workspace) => workspace.id !== action.payload.id);
-      localStorage.setItem('workspaces', JSON.stringify(state.value));
+    delete: (state, action: PayloadAction<Workspace['id']>) => {
+      state.value = state.value.filter((workspace) => workspace.id !== action.payload);
+
+      saveState(state);
     },
   },
 });
-
-export const { addWorkspace, editWorkspace, deleteWorkspace } = slice.actions;
-
-const getWorkspaces = (state: RootState) => state.workspaces;
-
-export const selectors = {
-  selectWorkspaces: createSelector(getWorkspaces, (workspaces) => workspaces.value),
-};
 
 export default slice.reducer;

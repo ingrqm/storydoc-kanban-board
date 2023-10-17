@@ -1,10 +1,16 @@
 import { Outlet } from 'react-router-dom';
 
+import { Sidebar } from './components';
+import * as Styled from './app.styled';
+
 export const App = () => {
   return (
-    <div>
-      <h1>App</h1>
-      <Outlet />
-    </div>
+    <Styled.Wrapper>
+      <Sidebar />
+
+      <Styled.Main>
+        <Outlet />
+      </Styled.Main>
+    </Styled.Wrapper>
   );
 };

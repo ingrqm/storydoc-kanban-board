@@ -1,15 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
+
+import itemsReducer from './items/slice';
+import listsReducer from './lists/slice';
 import themeReducer from './theme/slice';
 import workspacesReducer from './workspaces/slice';
-import listsReducer from './lists/slice';
-import itemsReducer from './items/slice';
+import workspaceReducer from './workspace/slice';
 
 export const store = configureStore({
   reducer: {
-    theme: themeReducer,
-    workspaces: workspacesReducer,
     lists: listsReducer,
     items: itemsReducer,
+    theme: themeReducer,
+    workspaces: workspacesReducer,
+    workspace: workspaceReducer,
   },
 });
 

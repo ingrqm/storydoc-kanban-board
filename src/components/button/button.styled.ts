@@ -1,13 +1,7 @@
 import styled from 'styled-components';
+
 import { colors } from 'styles';
 import { HexColor, transparency } from 'utils';
-
-type ButtonProps = {
-  $variant: 'default' | 'primary' | 'ghost' | 'disabled';
-  $size: 'xs' | 'sm' | 'md' | 'lg';
-  $isBlock: boolean;
-  $isIcon: boolean;
-};
 
 const getBoxShadow = <T extends string>(color: HexColor<T>) => `
   box-shadow:
@@ -58,6 +52,14 @@ const getLineHeight = (size: ButtonProps['$size']) => {
   }
 };
 
+type ButtonProps = {
+  $variant: 'default' | 'primary' | 'ghost' | 'disabled';
+  $size: 'xs' | 'sm' | 'md' | 'lg';
+  $isBlock: boolean;
+  $isIcon: boolean;
+  disabled?: boolean;
+};
+
 export const Button = styled.button<ButtonProps>`
   display: flex;
   justify-content: center;
@@ -68,11 +70,12 @@ export const Button = styled.button<ButtonProps>`
   font-weight: 600;
   transition: all 0.3s;
 
-  ${({ theme, $size, $variant, $isBlock, $isIcon }) => {
-    const button = theme.button[$variant];
+  ${({ theme, $size, $variant, $isBlock, $isIcon, disabled }) => {
+    const variant = disabled ? 'disabled' : $variant;
+    const button = theme.button[variant];
 
     return `
-      cursor: ${$variant === 'disabled' ? 'not-allowed' : 'pointer'};
+      cursor: ${variant === 'disabled' ? 'not-allowed' : 'pointer'};
       width: ${$isBlock ? '100%' : 'auto'};
       padding: ${$isIcon ? '0' : getPadding($size)};
       background-color: ${button.default.background};

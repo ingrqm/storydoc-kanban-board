@@ -1,59 +1,41 @@
-import { createSlice, createSelector } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from 'store';
+import { v4 as uuidv4 } from 'uuid';
 
-type List = {
-  id: string;
-  title: string;
-  workspace: string;
-};
-
-type ListsState = {
-  value: List[];
-};
-
-const storedLists = localStorage.getItem('lists');
-const isListsValid =
-  storedLists && JSON.parse(storedLists).every((list: List) => list.id && list.title && list.workspace);
-
-if (!isListsValid) {
-  localStorage.removeItem('lists');
-}
+import type { List, ListsState } from './types';
+import { readSavedState, saveState } from './utils';
 
 const initialState: ListsState = {
-  value: isListsValid ? JSON.parse(storedLists) : [],
+  value: readSavedState(),
 };
 
 export const slice = createSlice({
   name: 'lists',
   initialState,
   reducers: {
-    addList: (state, action: PayloadAction<List>) => {
-      state.value.push(action.payload);
-      localStorage.setItem('lists', JSON.stringify(state.value));
+    add: (state, action: PayloadAction<Omit<List, 'id'>>) => {
+      state.value.push({
+        id: uuidv4(),
+        ...action.payload,
+      });
+
+      saveState(state);
     },
-    editList: (state, action: PayloadAction<List>) => {
+    edit: (state, action: PayloadAction<List>) => {
       const index = state.value.findIndex((list) => list.id === action.payload.id);
 
       if (index !== -1) {
         state.value[index] = action.payload;
       }
 
-      localStorage.setItem('lists', JSON.stringify(state.value));
+      saveState(state);
     },
-    deleteList: (state, action: PayloadAction<{ id: string }>) => {
-      state.value = state.value.filter((list) => list.id !== action.payload.id);
-      localStorage.setItem('lists', JSON.stringify(state.value));
+    delete: (state, action: PayloadAction<List['id']>) => {
+      state.value = state.value.filter((list) => list.id !== action.payload);
+
+      saveState(state);
     },
   },
 });
-
-export const { addList, editList, deleteList } = slice.actions;
-
-const getLists = (state: RootState) => state.lists;
-
-export const selectors = {
-  selectLists: createSelector(getLists, (lists) => lists.value),
-};
 
 export default slice.reducer;

@@ -1,4 +1,4 @@
-import { Item } from 'store/items/types';
+import type { Item } from 'store/items/types';
 
 export type ListProps = {
   title?: string;
