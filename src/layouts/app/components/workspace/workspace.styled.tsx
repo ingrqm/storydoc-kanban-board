@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 import { Textarea } from 'components/textarea/textarea.styled';
-import { colors } from 'styles';
 
 export const Actions = styled.div`
   display: none;
@@ -10,11 +9,11 @@ export const Actions = styled.div`
 
   button {
     &:first-child {
-      color: ${colors.navalNight};
+      color: ${({ theme }) => theme.actions.default.color};
     }
 
     &:last-child {
-      color: ${colors.tomatoBurst};
+      color: ${({ theme }) => theme.actions.delete.color};
     }
 
     &:hover {
@@ -36,7 +35,10 @@ export const Workspace = styled.div<WorkspaceProps>`
   border-radius: 8px;
   opacity: ${({ $isActive }) => ($isActive ? 1 : 0.5)};
   cursor: ${({ $isActive }) => ($isActive ? 'default' : 'pointer')};
-  transition: all 0.3s;
+  transition:
+    background 0.3s,
+    opacity 0.3s,
+    color 0.3s;
   background: ${({ $isActive, theme }) =>
     $isActive
       ? theme.layout.app.sidebar.header.workspace.active.default.background

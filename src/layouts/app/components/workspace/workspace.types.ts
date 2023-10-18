@@ -14,4 +14,5 @@ export type WorkspaceProps = {
   onWorkspaceDelete?: () => void;
   onWorkspaceSet?: () => void;
   isActive?: boolean;
+  isOverlay?: boolean;
 };

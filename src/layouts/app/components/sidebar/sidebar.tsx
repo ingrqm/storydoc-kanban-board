@@ -1,17 +1,18 @@
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { SortableContext } from '@dnd-kit/sortable';
 
 import JohnDoeImg from 'assets/images/john-doe.jpeg';
 import { Button, Icon } from 'components';
 import { useDispatch, useTranslation } from 'hooks';
 import { selectWorkspace } from 'store/workspace/selectors';
+import { addWorkspace } from 'store/workspaces/actions';
 import { selectWorkspaces } from 'store/workspaces/selectors';
 
 import { items } from './sidebar.data';
 import * as Styled from './sidebar.styled';
 import { Workspace } from '..';
-import { addWorkspace } from 'store/workspaces/actions';
 
 export const Sidebar = () => {
   const { t } = useTranslation('layout.app.sidebar');
@@ -52,9 +53,12 @@ export const Sidebar = () => {
         {workspaces.length === 0 && !isWorkspaceAdd && (
           <Styled.Message>{t('header.message.no-workspaces')}</Styled.Message>
         )}
-        {workspaces.map(({ id, title }) => (
-          <Workspace key={id} id={id} title={title} isActive={isWorkspaceAdd ? false : id === workspace} />
-        ))}
+
+        <SortableContext items={workspaces}>
+          {workspaces.map(({ id, title }) => (
+            <Workspace key={id} id={id} title={title} isActive={isWorkspaceAdd ? false : id === workspace} />
+          ))}
+        </SortableContext>
 
         {isWorkspaceAdd ? (
           <>
@@ -66,6 +70,7 @@ export const Sidebar = () => {
               onWorkspaceCancelAdd={handleStopAddingWorkspace}
               onWorkspaceEdit={handleStopAddingWorkspace}
               isActive={true}
+              isOverlay={false}
             />
             <Button variant="primary" disabled={isSaveDisabled} onClick={handleWorkspaceAdd} isBlock>
               <Icon variant="fill" name="plus" size={16} />

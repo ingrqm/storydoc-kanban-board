@@ -78,6 +78,18 @@ export const defaultTheme = {
   separator: {
     background: colors.whisperBlue,
   },
+  actions: {
+    default: {
+      color: colors.navalNight,
+    },
+    delete: {
+      color: colors.tomatoBurst,
+    },
+  },
+  overlay: {
+    background: colors.blueRinse,
+    color: colors.transparent,
+  },
   button: {
     default: {
       default: {

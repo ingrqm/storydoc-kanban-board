@@ -15,6 +15,7 @@ export const Sidebar = styled.div`
   height: calc(100vh - 16px - 16px);
   width: 294px;
   overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 export const Header = styled.div`

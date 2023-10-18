@@ -1,13 +1,7 @@
 import styled from 'styled-components';
 
 import { Textarea } from 'components/textarea/textarea.styled';
-import { colors } from 'styles';
 import { transparency } from 'utils';
-
-type ListProps = {
-  $nestedLevels?: number;
-  $isListAdd?: boolean;
-};
 
 export const Actions = styled.div`
   display: none;
@@ -16,11 +10,11 @@ export const Actions = styled.div`
 
   button {
     &:first-child {
-      color: ${colors.navalNight};
+      color: ${({ theme }) => theme.actions.default.color};
     }
 
     &:last-child {
-      color: ${colors.tomatoBurst};
+      color: ${({ theme }) => theme.actions.delete.color};
     }
 
     &:hover {
@@ -69,9 +63,9 @@ export const Body = styled.div`
 `;
 
 export const Item = styled.div`
+  display: flex;
   background: ${({ theme }) => theme.list.card.default.background};
   color: ${({ theme }) => theme.list.color};
-  display: flex;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
@@ -82,6 +76,7 @@ export const Item = styled.div`
   font-weight: 400;
   word-break: break-word;
   border-radius: 8px;
+
   box-shadow: ${({ theme }) => `
     0px 0px 1px 0px ${transparency(theme.list.card.default.shadow, 0.1)},
     0px 1px 1px 0px ${transparency(theme.list.card.default.shadow, 0.1)}`};
@@ -112,12 +107,16 @@ export const Nested = styled.div`
   width: 100%;
 `;
 
+type ListProps = {
+  $nestedLevels?: number;
+  $isListAdd?: boolean;
+};
+
 export const List = styled.div<ListProps>`
   min-width: ${({ $nestedLevels }) => 294 + ($nestedLevels || 0) * 16}px;
   width: ${({ $nestedLevels }) => 294 + ($nestedLevels || 0) * 16}px;
   background: ${({ theme }) => theme.list.background};
   display: flex;
-  padding: 16px 8px 8px 8px;
   padding: ${({ $isListAdd }) => ($isListAdd ? '16px 8px' : '16px 8px 8px 8px')};
   flex-direction: column;
   align-items: flex-start;

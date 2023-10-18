@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
+import type { MouseEvent } from 'react';
+import { useSelector } from 'react-redux';
 
-import { Button, Icon, Textarea } from 'components';
+import { Button, Icon, SortableItem, Textarea } from 'components';
 import { useClickOutside, useDispatch, useFocus, useTranslation } from 'hooks';
+import { setWorkspace } from 'store/workspace/actions';
 import { addWorkspace, deleteWorkspace, editWorkspace } from 'store/workspaces/actions';
+import { selectWorkspace } from 'store/workspaces/selectors';
 
 import * as Styled from './workspace.styled';
-import { setWorkspace } from 'store/workspace/actions';
 import type { WorkspaceProps } from './workspace.types';
 
 export const Workspace = ({
   id,
-  title,
   letter,
   saveButtonRef,
   onWorkspaceTitleChange,
@@ -22,13 +24,16 @@ export const Workspace = ({
   onWorkspaceDelete,
   onWorkspaceSet,
   isActive = false,
+  isOverlay,
 }: WorkspaceProps) => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const workspace = id ? useSelector(selectWorkspace(id)) : undefined;
   const [isWorkspaceEdit, setIsWorkspaceEdit] = useState(false);
   const [textareaWorkspaceAddRef, setTextareaWorkspaceAddFocus] = useFocus();
   const [textareaWorkspaceEditRef, setTextareaWorkspaceEditFocus] = useFocus();
-  const isWorkspaceAdd = !id && !title;
+  const isWorkspaceAdd = !id;
+  const title = workspace?.title;
 
   const handleWorkspaceChange = (title: string) => {
     onWorkspaceTitleChange?.(title);
@@ -73,9 +78,13 @@ export const Workspace = ({
     onWorkspaceDelete?.();
   };
 
-  const handleWorkspaceSet = () => {
+  const handleWorkspaceSet = (event: MouseEvent) => {
+    const forbiddenTags = ['button', 'svg', 'g', 'path'];
+
     if (!id) return;
     if (isWorkspaceAdd || isWorkspaceEdit) return;
+    if (!(event.target instanceof HTMLElement)) return;
+    if (forbiddenTags.includes(event.target?.nodeName.toLocaleLowerCase())) return;
 
     dispatch(setWorkspace(id));
     onWorkspaceSet?.();
@@ -94,37 +103,39 @@ export const Workspace = ({
   useClickOutside([textareaWorkspaceEditRef], handleWorkspaceCancelEdit);
 
   return (
-    <Styled.Workspace $isActive={isActive} onClick={handleWorkspaceSet}>
-      <Styled.Logo>{letter ? letter : title?.[0].toUpperCase()}</Styled.Logo>
-      {!isWorkspaceAdd && !isWorkspaceEdit && title && <Styled.Title>{title}</Styled.Title>}
-      {isWorkspaceAdd && (
-        <Textarea
-          ref={textareaWorkspaceAddRef}
-          onSubmit={handleWorkspaceAdd}
-          onChange={handleWorkspaceChange}
-          onCancel={handleWorkspaceCancelAdd}
-          placeholder={t('header.textarea.placeholder')}
-        />
-      )}
-      {isWorkspaceEdit && (
-        <Textarea
-          ref={textareaWorkspaceEditRef}
-          onSubmit={handleWorkspaceEdit}
-          onCancel={handleWorkspaceCancelEdit}
-          defaultValue={title}
-          placeholder={t('header.textarea.placeholder')}
-        />
-      )}
-      {!isWorkspaceAdd && !isWorkspaceEdit && id && (
-        <Styled.Actions>
-          <Button variant="ghost" size="sm" onClick={() => handleWorkspaceStartEdit()} isIcon>
-            <Icon variant="fill" name="edit" size={16} />
-          </Button>
-          <Button variant="ghost" size="sm" onClick={handleWorkspaceDelete} isIcon>
-            <Icon variant="fill" name="trash" size={16} />
-          </Button>
-        </Styled.Actions>
-      )}
-    </Styled.Workspace>
+    <SortableItem id={id} data={{ type: 'workspace', accepts: ['workspace', 'list'] }}>
+      <Styled.Workspace $isActive={isActive} onClick={handleWorkspaceSet}>
+        <Styled.Logo>{letter ? letter : title?.[0].toUpperCase()}</Styled.Logo>
+        {!isWorkspaceAdd && !isWorkspaceEdit && title && <Styled.Title>{title}</Styled.Title>}
+        {isWorkspaceAdd && (
+          <Textarea
+            ref={textareaWorkspaceAddRef}
+            onSubmit={handleWorkspaceAdd}
+            onChange={handleWorkspaceChange}
+            onCancel={handleWorkspaceCancelAdd}
+            placeholder={t('header.textarea.placeholder')}
+          />
+        )}
+        {isWorkspaceEdit && (
+          <Textarea
+            ref={textareaWorkspaceEditRef}
+            onSubmit={handleWorkspaceEdit}
+            onCancel={handleWorkspaceCancelEdit}
+            defaultValue={title}
+            placeholder={t('header.textarea.placeholder')}
+          />
+        )}
+        {!isWorkspaceAdd && !isWorkspaceEdit && !isOverlay && id && (
+          <Styled.Actions>
+            <Button variant="ghost" size="sm" onClick={handleWorkspaceStartEdit} isIcon>
+              <Icon variant="fill" name="edit" size={16} />
+            </Button>
+            <Button variant="ghost" size="sm" onClick={handleWorkspaceDelete} isIcon>
+              <Icon variant="fill" name="trash" size={16} />
+            </Button>
+          </Styled.Actions>
+        )}
+      </Styled.Workspace>
+    </SortableItem>
   );
 };

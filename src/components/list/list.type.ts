@@ -16,6 +16,7 @@ export type ListProps = {
   onItemStartEdit?: () => void;
   onItemCancelEdit?: () => void;
   onItemDelete?: () => void;
+  isOverlay?: boolean;
 };
 
 export type RenderItemsProps = {

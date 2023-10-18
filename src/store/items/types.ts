@@ -8,3 +8,8 @@ export type Item = {
 export type ItemsState = {
   value: Item[];
 };
+
+export type Element = {
+  id: Item['id'];
+  type: 'item' | 'list';
+};
