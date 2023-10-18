@@ -18,36 +18,16 @@ Visit <a aria-label="link to figma designs" href="https://www.figma.com/file/b07
 
 Set up using <a aria-label="vite" href="https://vitejs.dev">Vite.js</a>
 
-<a aria-label="React" href="https://github.com/facebook/react/">
-  <img alt="React repository" src="https://img.shields.io/badge/-React-black" />
-</a>
-<a aria-label="TypeScript" href="https://github.com/microsoft/TypeScript">
-  <img alt="TypeScript repository" src="https://img.shields.io/badge/-TypeScript-black" />
-</a>
-<a aria-label="React router" href="https://reactrouter.com/en/main">
-  <img alt="React router page" src="https://img.shields.io/badge/-React router V6-black" />
-</a>
-<a aria-label="styled-components" href="https://github.com/styled-components/styled-components">
-  <img alt="styled-components repository" src="https://img.shields.io/badge/-styled--components-black" />
-</a>
-<a aria-label="Redux toolkit" href="https://redux-toolkit.js.org/">
-  <img alt="Redux toolkit page" src="https://img.shields.io/badge/-Redux toolkit-black" />
-</a>
-<a aria-label="dnd kit" href="https://dndkit.com/">
-  <img alt="dnd kit page" src="https://img.shields.io/badge/-dnd kit-black" />
-</a>
-<a aria-label="react helmet" href="https://github.com/staylor/react-helmet-async">
-  <img alt="react helmet async repository" src="https://img.shields.io/badge/-react helmet async-black" />
-</a>
-<a aria-label="i18next" href="https://github.com/i18next/i18next">
-  <img alt="i18next repository" src="https://img.shields.io/badge/-i18next-black" />
-</a>
-<a aria-label="ESLint" href="https://github.com/eslint/eslint">
-  <img alt="ESLint repository" src="https://img.shields.io/badge/-ESLint-black" />
-</a>
-<a aria-label="Prettier" href="https://github.com/prettier/prettier">
-  <img alt="Prettier repository" src="https://img.shields.io/badge/-Prettier-black" />
-</a>
+<a aria-label="React" href="https://github.com/facebook/react/"><img alt="React repository" src="https://img.shields.io/badge/-React-black" /></a>
+<a aria-label="TypeScript" href="https://github.com/microsoft/TypeScript"><img alt="TypeScript repository" src="https://img.shields.io/badge/-TypeScript-black" /></a>
+<a aria-label="React router" href="https://reactrouter.com/en/main"><img alt="React router page" src="https://img.shields.io/badge/-React router V6-black" /></a>
+<a aria-label="styled-components" href="https://github.com/styled-components/styled-components"><img alt="styled-components repository" src="https://img.shields.io/badge/-styled--components-black" /></a>
+<a aria-label="Redux toolkit" href="https://redux-toolkit.js.org/"><img alt="Redux toolkit page" src="https://img.shields.io/badge/-Redux toolkit-black" /></a>
+<a aria-label="dnd kit" href="https://dndkit.com/"><img alt="dnd kit page" src="https://img.shields.io/badge/-dnd kit-black" /></a>
+<a aria-label="react helmet" href="https://github.com/staylor/react-helmet-async"><img alt="react helmet async repository" src="https://img.shields.io/badge/-react helmet async-black" /></a>
+<a aria-label="i18next" href="https://github.com/i18next/i18next"><img alt="i18next repository" src="https://img.shields.io/badge/-i18next-black" /></a>
+<a aria-label="ESLint" href="https://github.com/eslint/eslint"><img alt="ESLint repository" src="https://img.shields.io/badge/-ESLint-black" /></a>
+<a aria-label="Prettier" href="https://github.com/prettier/prettier"><img alt="Prettier repository" src="https://img.shields.io/badge/-Prettier-black" /></a>
 
 ## Development
 
