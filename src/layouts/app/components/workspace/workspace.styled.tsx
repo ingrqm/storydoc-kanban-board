@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 import { Textarea } from 'components/textarea/textarea.styled';
-import { colors } from 'styles';
 
 export const Actions = styled.div`
   display: none;
@@ -10,11 +9,11 @@ export const Actions = styled.div`
 
   button {
     &:first-child {
-      color: ${colors.navalNight};
+      color: ${({ theme }) => theme.actions.default.color};
     }
 
     &:last-child {
-      color: ${colors.tomatoBurst};
+      color: ${({ theme }) => theme.actions.delete.color};
     }
 
     &:hover {

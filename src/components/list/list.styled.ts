@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 import { Textarea } from 'components/textarea/textarea.styled';
-import { colors } from 'styles';
 import { transparency } from 'utils';
 
 export const Actions = styled.div`
@@ -11,11 +10,11 @@ export const Actions = styled.div`
 
   button {
     &:first-child {
-      color: ${colors.navalNight};
+      color: ${({ theme }) => theme.actions.default.color};
     }
 
     &:last-child {
-      color: ${colors.tomatoBurst};
+      color: ${({ theme }) => theme.actions.delete.color};
     }
 
     &:hover {
@@ -108,13 +107,6 @@ export const Nested = styled.div`
   width: 100%;
 `;
 
-export const Droppable = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-`;
-
 type ListProps = {
   $nestedLevels?: number;
   $isListAdd?: boolean;
@@ -125,7 +117,6 @@ export const List = styled.div<ListProps>`
   width: ${({ $nestedLevels }) => 294 + ($nestedLevels || 0) * 16}px;
   background: ${({ theme }) => theme.list.background};
   display: flex;
-  padding: 16px 8px 8px 8px;
   padding: ${({ $isListAdd }) => ($isListAdd ? '16px 8px' : '16px 8px 8px 8px')};
   flex-direction: column;
   align-items: flex-start;

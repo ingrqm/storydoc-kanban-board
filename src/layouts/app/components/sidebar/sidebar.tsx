@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useDroppable } from '@dnd-kit/core';
 import { SortableContext } from '@dnd-kit/sortable';
 
 import JohnDoeImg from 'assets/images/john-doe.jpeg';
@@ -26,13 +25,6 @@ export const Sidebar = () => {
   const navigate = useNavigate();
   const letter = title[0];
   const isSaveDisabled = title.length === 0;
-
-  const { setNodeRef } = useDroppable({
-    id: 'workspaces',
-    data: {
-      accepts: ['workspace', 'list'],
-    },
-  });
 
   const handleNavigateSettings = () => {
     navigate('/settings');
@@ -63,11 +55,9 @@ export const Sidebar = () => {
         )}
 
         <SortableContext items={workspaces}>
-          <Styled.Droppable ref={setNodeRef}>
-            {workspaces.map(({ id, title }) => (
-              <Workspace key={id} id={id} title={title} isActive={isWorkspaceAdd ? false : id === workspace} />
-            ))}
-          </Styled.Droppable>
+          {workspaces.map(({ id, title }) => (
+            <Workspace key={id} id={id} title={title} isActive={isWorkspaceAdd ? false : id === workspace} />
+          ))}
         </SortableContext>
 
         {isWorkspaceAdd ? (

@@ -103,7 +103,7 @@ export const Workspace = ({
   useClickOutside([textareaWorkspaceEditRef], handleWorkspaceCancelEdit);
 
   return (
-    <SortableItem id={id} type="workspace">
+    <SortableItem id={id} data={{ type: 'workspace', accepts: ['workspace', 'list'] }}>
       <Styled.Workspace $isActive={isActive} onClick={handleWorkspaceSet}>
         <Styled.Logo>{letter ? letter : title?.[0].toUpperCase()}</Styled.Logo>
         {!isWorkspaceAdd && !isWorkspaceEdit && title && <Styled.Title>{title}</Styled.Title>}

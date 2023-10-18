@@ -10,6 +10,10 @@ export const Dashboard = () => {
       <Helmet>
         <title>{t('meta.title')}</title>
       </Helmet>
+
+      <div>
+        <h1>Dashboard</h1>
+      </div>
     </>
   );
 };

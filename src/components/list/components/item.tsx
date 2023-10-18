@@ -25,7 +25,7 @@ export const Item = ({
   onItemStartEdit,
   onItemCancelEdit,
   onItemDelete,
-  isOverlay,
+  isOverlay = false,
 }: ItemProps) => {
   const dispatch = useDispatch();
   const { t } = useTranslation('component.list');
@@ -69,7 +69,7 @@ export const Item = ({
   useClickOutside([textareaItemEditRef], handleItemCancelEdit);
 
   return (
-    <SortableItem id={id} type="item">
+    <SortableItem id={id} data={{ type: 'item' }}>
       <Styled.Item>
         {!isItemEdit && titleDisplay}
         {isItemEdit && (

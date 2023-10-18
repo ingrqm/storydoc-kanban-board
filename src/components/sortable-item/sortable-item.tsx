@@ -1,17 +1,20 @@
 import type { ReactNode } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
+import type { UseDraggableArguments } from '@dnd-kit/core';
+
+import * as Styled from './sortable-item.styled';
 
 type SortableItemProps = {
   children: ReactNode;
   id?: string;
-  type?: string;
+  data?: UseDraggableArguments['data'];
 };
 
-export function SortableItem({ id, type, children }: SortableItemProps) {
-  const { setNodeRef, transform, transition, attributes, listeners } = useSortable({
+export function SortableItem({ id, data, children }: SortableItemProps) {
+  const { setNodeRef, transform, transition, attributes, listeners, isDragging } = useSortable({
     id: id as string,
     disabled: !id,
-    data: { type },
+    data,
   });
 
   const style = {
@@ -21,7 +24,7 @@ export function SortableItem({ id, type, children }: SortableItemProps) {
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      {children}
+      <Styled.Overlay $isDragging={isDragging && Boolean(id)}>{children}</Styled.Overlay>
     </div>
   );
 }

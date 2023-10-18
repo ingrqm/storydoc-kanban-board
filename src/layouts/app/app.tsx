@@ -1,19 +1,9 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Outlet } from 'react-router-dom';
-import {
-  DndContext,
-  DragOverlay,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
-  pointerWithin,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
+import { DndContext, DragOverlay, MouseSensor, TouchSensor, pointerWithin, useSensor, useSensors } from '@dnd-kit/core';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
-import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 
 import { List } from 'components';
 import { Item } from 'components/list/components';
@@ -41,12 +31,9 @@ export const App = () => {
         tolerance: 5,
       },
     }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
   );
 
-  const handleDragEnd = ({ active, over }: DragEndEvent) => {
+  const handleDragOver = ({ active, over }: DragEndEvent) => {
     const target = {
       id: over?.id as string,
       type: over?.data?.current?.type,
@@ -57,8 +44,6 @@ export const App = () => {
       type: active?.data?.current?.type,
     };
 
-    console.log({ source, target });
-
     if (['item'].includes(source.type) && ['item', 'list'].includes(target.type)) {
       dispatch(moveItem({ source, target }));
     }
@@ -68,7 +53,6 @@ export const App = () => {
     }
 
     if (['list'].includes(source.type) && ['workspace'].includes(target.type)) {
-      console.log('moveListToWorkspace');
       dispatch(moveListToWorkspace({ target, source }));
     }
 
@@ -77,17 +61,24 @@ export const App = () => {
     }
   };
 
+  const handleDragEnd = () => {
+    setActiveElement(undefined);
+  };
+
+  const handlerDragStart = (event: DragEndEvent) => {
+    setActiveElement({
+      type: event?.active?.data?.current?.type,
+      id: event.active.id as string,
+    });
+  };
+
   return (
     <Styled.Wrapper>
       <DndContext
+        onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
         collisionDetection={pointerWithin}
-        onDragStart={(e) => {
-          setActiveElement({
-            type: e?.active?.data?.current?.type,
-            id: e.active.id as string,
-          });
-        }}
+        onDragStart={handlerDragStart}
         sensors={sensors}
       >
         <Sidebar />
@@ -100,9 +91,9 @@ export const App = () => {
           <DragOverlay dropAnimation={null} modifiers={[restrictToWindowEdges]}>
             {activeElement ? (
               <>
-                {activeElement.type === 'item' && <Item id={activeElement.id} isOverlay />}
-                {activeElement.type === 'list' && <List id={activeElement.id} isOverlay />}
-                {activeElement.type === 'workspace' && <Workspace id={activeElement.id} isOverlay />}
+                {activeElement?.type === 'item' && <Item id={activeElement?.id} isOverlay />}
+                {activeElement?.type === 'list' && <List id={activeElement?.id} isOverlay />}
+                {activeElement?.type === 'workspace' && <Workspace id={activeElement?.id} isOverlay />}
               </>
             ) : null}
           </DragOverlay>,

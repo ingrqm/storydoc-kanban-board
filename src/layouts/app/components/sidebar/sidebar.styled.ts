@@ -26,12 +26,6 @@ export const Header = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.layout.app.sidebar.header.border};
 `;
 
-export const Droppable = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
 export const Message = styled.div`
   display: flex;
   align-items: center;
