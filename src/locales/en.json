@@ -3,40 +3,40 @@
     "app": {
       "boards": {
         "meta": {
-          "title": "Boards"
+          "title": "Boards | Storydoc"
         },
         "add-list": "Add another list"
       },
       "dashboard": {
         "meta": {
-          "title": "Dashboard"
+          "title": "Dashboard | Storydoc"
         }
       },
       "profile": {
         "meta": {
-          "title": "Profile"
+          "title": "Profile | Storydoc"
         }
       },
       "search": {
         "meta": {
-          "title": "Search"
+          "title": "Search | Storydoc"
         }
       },
       "settings": {
         "meta": {
-          "title": "Settings"
+          "title": "Settings | Storydoc"
         }
       }
     },
     "error": {
       "not-found": {
         "meta": {
-          "title": "Error 404 - not found"
+          "title": "Error 404 - not found | Storydoc"
         }
       },
       "not-authorized": {
         "meta": {
-          "title": "Error 401 - not authorized"
+          "title": "Error 401 - not authorized | Storydoc"
         }
       }
     }
