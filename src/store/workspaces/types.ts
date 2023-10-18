@@ -6,3 +6,8 @@ export type Workspace = {
 export type WorkspacesState = {
   value: Workspace[];
 };
+
+export type Element = {
+  id: Workspace['id'];
+  type: 'workspace';
+};

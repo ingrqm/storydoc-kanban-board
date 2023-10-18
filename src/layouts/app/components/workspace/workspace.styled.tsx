@@ -25,11 +25,6 @@ export const Actions = styled.div`
 
 type WorkspaceProps = {
   $isActive: boolean;
-  $transform: {
-    x: number;
-    y: number;
-  } | null;
-  $isDragging: boolean;
 };
 
 export const Workspace = styled.div<WorkspaceProps>`
@@ -40,23 +35,11 @@ export const Workspace = styled.div<WorkspaceProps>`
   padding: 16px;
   border-radius: 8px;
   opacity: ${({ $isActive }) => ($isActive ? 1 : 0.5)};
-  cursor: ${({ $isActive, $isDragging }) => {
-    switch (true) {
-      case $isDragging:
-        return 'grabbing';
-      case $isActive:
-        return 'default';
-      default:
-        return 'pointer';
-    }
-  }};
+  cursor: ${({ $isActive }) => ($isActive ? 'default' : 'pointer')};
   transition:
     background 0.3s,
     opacity 0.3s,
     color 0.3s;
-  transform: ${({ $transform }) =>
-    $transform ? `translate3d(${$transform.x}px, ${$transform.y}px, 0)` : 'translate3d(0, 0, 0)'};
-  z-index: ${({ $isDragging }) => ($isDragging ? 1 : 0)};
   background: ${({ $isActive, theme }) =>
     $isActive
       ? theme.layout.app.sidebar.header.workspace.active.default.background

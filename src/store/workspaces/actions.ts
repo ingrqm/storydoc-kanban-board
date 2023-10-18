@@ -6,11 +6,30 @@ import { deleteAllListsByWorkspaceId } from 'store/lists/actions';
 import { setWorkspace } from 'store/workspace/actions';
 
 import { slice } from './slice';
-import type { Workspace } from './types';
+import type { Element, Workspace } from './types';
 
-export const { edit: editWorkspace, move: moveWorkspace } = slice.actions;
+export const { edit: editWorkspace } = slice.actions;
 
-const { add: addWorkspaceRaw, delete: deleteWorkspaceRaw } = slice.actions;
+const { add: addWorkspaceRaw, delete: deleteWorkspaceRaw, move: moveWorkspaceRaw } = slice.actions;
+
+export const moveWorkspace = createAsyncThunk<void, { target: Element; source: Element }, { state: RootState }>(
+  'lists/moveWorkspace',
+  async ({ target, source }, { dispatch, getState }) => {
+    const { workspaces } = getState();
+
+    const targetWorkspace = workspaces.value.find(({ id }) => id === target.id);
+    const sourceWorkspace = workspaces.value.find(({ id }) => id === source.id);
+
+    if (!targetWorkspace || !sourceWorkspace) {
+      return;
+    }
+
+    const targetIndex = workspaces.value.indexOf(targetWorkspace);
+    const sourceIndex = workspaces.value.indexOf(sourceWorkspace);
+
+    dispatch(moveWorkspaceRaw({ target: targetIndex, source: sourceIndex }));
+  },
+);
 
 export const addWorkspace = createAsyncThunk<void, Workspace['title'], { dispatch: AppDispatch }>(
   'workspaces/deleteWorkspaceAndLists',

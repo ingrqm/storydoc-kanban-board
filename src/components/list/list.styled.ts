@@ -64,9 +64,9 @@ export const Body = styled.div`
 `;
 
 export const Item = styled.div`
+  display: flex;
   background: ${({ theme }) => theme.list.card.default.background};
   color: ${({ theme }) => theme.list.color};
-  display: flex;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
@@ -77,6 +77,7 @@ export const Item = styled.div`
   font-weight: 400;
   word-break: break-word;
   border-radius: 8px;
+
   box-shadow: ${({ theme }) => `
     0px 0px 1px 0px ${transparency(theme.list.card.default.shadow, 0.1)},
     0px 1px 1px 0px ${transparency(theme.list.card.default.shadow, 0.1)}`};
@@ -107,14 +108,16 @@ export const Nested = styled.div`
   width: 100%;
 `;
 
+export const Droppable = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+`;
+
 type ListProps = {
   $nestedLevels?: number;
   $isListAdd?: boolean;
-  $transform: {
-    x: number;
-    y: number;
-  } | null;
-  $isDragging: boolean;
 };
 
 export const List = styled.div<ListProps>`
@@ -124,11 +127,6 @@ export const List = styled.div<ListProps>`
   display: flex;
   padding: 16px 8px 8px 8px;
   padding: ${({ $isListAdd }) => ($isListAdd ? '16px 8px' : '16px 8px 8px 8px')};
-  transform: ${({ $transform }) =>
-    $transform ? `translate3d(${$transform.x}px, ${$transform.y}px, 0)` : 'translate3d(0, 0, 0)'};
-  z-index: ${({ $isDragging }) => ($isDragging ? 1 : 0)};
-  cursor: ${({ $isDragging }) => ($isDragging ? 'grabbing' : 'default')};
-  box-shadow: ${({ $isDragging }) => ($isDragging ? '0px 0px 8px 0px rgba(0, 0, 0, 0.2)' : 'none')};
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;

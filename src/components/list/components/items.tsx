@@ -2,7 +2,6 @@ import { Fragment } from 'react';
 
 import type { Item as ItemProps } from 'store/items/types';
 
-import * as Styled from '../list.styled';
 import { Item } from '.';
 
 type ItemsProps = {
@@ -14,11 +13,12 @@ type ItemsProps = {
   parent?: string;
 };
 
-export const Items = ({ items, onItemEdit, onItemStartEdit, onItemCancelEdit, onItemDelete, parent }: ItemsProps) =>
-  items
+export const Items = ({ items, onItemEdit, onItemStartEdit, onItemCancelEdit, onItemDelete, parent }: ItemsProps) => {
+  return items
     .filter((item) => item.parent === parent)
     .map(({ id, list, parent, title }) => {
-      const isNested = items.some((item) => item.parent === id);
+      // TODO: handle nested
+      // const isNested = items.some((item) => item.parent === id);
 
       return (
         <Fragment key={id}>
@@ -33,11 +33,13 @@ export const Items = ({ items, onItemEdit, onItemStartEdit, onItemCancelEdit, on
             title={title}
           />
 
-          {isNested && (
-            <Styled.Nested>
-              <Items items={items} parent={id} />
-            </Styled.Nested>
-          )}
+          {/* TODO: handle nested */}
+          {/* {isNested && (
+                        <Styled.Nested>
+                          <Items items={items} parent={id} />
+                        </Styled.Nested>
+                      )} */}
         </Fragment>
       );
     });
+};
