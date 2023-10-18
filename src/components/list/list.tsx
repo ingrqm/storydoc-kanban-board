@@ -49,8 +49,6 @@ export const List = ({
   const isListAdd = !id;
   const titleDisplay = title || list?.title;
 
-  console.log(isListAdd);
-
   const handleListAdd = (title: string) => {
     if (!workspace) return;
 
