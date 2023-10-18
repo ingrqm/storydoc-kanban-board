@@ -127,7 +127,7 @@ export const Workspace = ({
         )}
         {!isWorkspaceAdd && !isWorkspaceEdit && !isOverlay && id && (
           <Styled.Actions>
-            <Button variant="ghost" size="sm" onClick={() => handleWorkspaceStartEdit()} isIcon>
+            <Button variant="ghost" size="sm" onClick={handleWorkspaceStartEdit} isIcon>
               <Icon variant="fill" name="edit" size={16} />
             </Button>
             <Button variant="ghost" size="sm" onClick={handleWorkspaceDelete} isIcon>

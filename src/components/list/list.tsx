@@ -147,7 +147,7 @@ export const List = ({
           {!isListAdd && !isListEdit && titleDisplay && <Styled.Title>{titleDisplay}</Styled.Title>}
           {!isListAdd && !isListEdit && !isOverlay && id && (
             <Styled.Actions>
-              <Button variant="ghost" size="sm" onClick={() => handleListStartEdit()} isIcon>
+              <Button variant="ghost" size="sm" onClick={handleListStartEdit} isIcon>
                 <Icon variant="fill" name="edit" size={16} />
               </Button>
               <Button variant="ghost" size="sm" onClick={handleListDelete} isIcon>
